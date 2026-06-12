@@ -149,7 +149,7 @@ a {
 
 .hero-inner {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  grid-template-columns: 1fr 1.7fr;
   gap: 60px;
   align-items: center;
 }
@@ -260,48 +260,6 @@ a {
   color: var(--text-muted);
   font-size: 14px;
   line-height: 1.6;
-}
-
-/* Screenshots */
-.screenshots {
-  padding: 100px 0;
-}
-
-.screenshots-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-}
-
-.screenshot-item {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: transform 0.2s;
-}
-
-.screenshot-item:hover {
-  transform: scale(1.02);
-}
-
-.screenshot-item.wide {
-  grid-column: span 2;
-}
-
-.screenshot-item img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-bottom: 1px solid var(--border);
-}
-
-.screenshot-item span {
-  display: block;
-  padding: 14px 16px;
-  font-size: 14px;
-  color: var(--text-muted);
-  font-weight: 500;
 }
 
 /* Demo */
@@ -449,7 +407,7 @@ code {
   color: var(--text);
 }
 
-/* Responsive *
+/* Responsive */
 @media (max-width: 1024px) {
   .hero-inner,
   .mcp-inner {
@@ -459,14 +417,6 @@ code {
   .features-grid,
   .install-steps {
     grid-template-columns: repeat(2, 1fr);
-  }
-
-  .screenshots-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .screenshot-item.wide {
-    grid-column: span 1;
   }
 }
 
