@@ -269,7 +269,7 @@ a {
 
 .screenshots-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
@@ -279,9 +279,6 @@ a {
   border-radius: 16px;
   overflow: hidden;
   transition: transform 0.2s;
-  display: flex;
-  flex-direction: column;
-  height: 300px;
 }
 
 .screenshot-item:hover {
@@ -292,22 +289,11 @@ a {
   grid-column: span 2;
 }
 
-.screenshot-image {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #0d1016;
-  border-bottom: 1px solid var(--border);
-  padding: 12px;
-}
-
 .screenshot-item img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  width: 100%;
+  height: auto;
   display: block;
+  border-bottom: 1px solid var(--border);
 }
 
 .screenshot-item span {
