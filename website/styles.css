@@ -71,9 +71,8 @@ a {
   justify-content: center;
   background: var(--accent);
   border-radius: 8px;
-  font-size: 14px;
-  line-height: 1;
   color: white;
+  line-height: 0;
 }
 
 .main-nav {
@@ -136,6 +135,10 @@ a {
 .btn-ghost:hover {
   color: var(--text);
   background: rgba(255, 255, 255, 0.03);
+}
+
+.btn-github {
+  gap: 10px;
 }
 
 /* Hero */
