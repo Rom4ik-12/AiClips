@@ -323,9 +323,7 @@ const Timeline = ({ clips, setClips, selectedItemId, setSelectedItemId, playhead
             </div>
           ))}
           <div className="track-header track-add-row">
-            <button className="track-add-btn" onClick={() => onAddTrack('video')}>+ Видео</button>
-            <button className="track-add-btn" onClick={() => onAddTrack('text')}>+ Текст</button>
-            <button className="track-add-btn" onClick={() => onAddTrack('audio')}>+ Аудио</button>
+            <button className="track-add-btn" onClick={() => onAddTrack()}>+ Дорожка</button>
           </div>
         </div>
         
@@ -338,7 +336,7 @@ const Timeline = ({ clips, setClips, selectedItemId, setSelectedItemId, playhead
           
           {tracks.map((track, trackIndex) => (
             <div 
-              className={`track ${track.type === 'audio' ? 'audio-track' : ''}`} 
+              className="track"
               key={track.id}
               onDragOver={(e) => handleTrackDragOver(e, trackIndex)}
               onDragLeave={handleTrackDragLeave}

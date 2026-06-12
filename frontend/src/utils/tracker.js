@@ -151,6 +151,9 @@ export async function trackPoint(videoEl, startPoint, canvasWidth, canvasHeight,
     
     framesDone++;
     if (onProgress) onProgress(framesDone, totalFrames, screenPt);
+
+    // Уступаем управление event loop, чтобы UI не зависал
+    await new Promise(resolve => setTimeout(resolve, 0));
   }
 
   // 2. Трекаем НАЗАД от текущей позиции до начала
@@ -169,6 +172,9 @@ export async function trackPoint(videoEl, startPoint, canvasWidth, canvasHeight,
     
     framesDone++;
     if (onProgress) onProgress(framesDone, totalFrames, screenPt);
+
+    // Уступаем управление event loop, чтобы UI не зависал
+    await new Promise(resolve => setTimeout(resolve, 0));
   }
 
   // Сортируем результаты по времени, чтобы ключи шли по порядку

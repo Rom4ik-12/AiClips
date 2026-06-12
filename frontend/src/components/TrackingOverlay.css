@@ -119,3 +119,32 @@
   border-radius: 2px;
   transition: width 0.1s linear;
 }
+
+.tracking-panel-inline {
+  position: static;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-top: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  background: rgba(10, 12, 20, 0.85);
+}
+
+.tracking-panel-inline .tracking-instructions {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tracking-panel-inline .tracking-status {
+  flex: 1;
+  justify-content: flex-start;
+  gap: 16px;
+}
+
+.tracking-panel-inline .tracking-progress-bar {
+  max-width: 200px;
+}

@@ -37,6 +37,7 @@ body {
   display: flex;
   flex: 1;
   height: 60vh;
+  min-height: 0;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -46,6 +47,8 @@ body {
   flex-direction: column;
   padding: 20px;
   background: var(--bg-color);
+  min-height: 0;
+  overflow: hidden;
 }
 
 .properties-section {
@@ -59,9 +62,11 @@ body {
 
 .timeline-section {
   height: 40vh;
+  min-height: 0;
   background: var(--timeline-bg);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 /* Shared Panel styles */

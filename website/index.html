@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AiClips — Веб-редактор видео с AI-трекингом</title>
+  <meta name="description" content="AiClips — бесплатный веб-редактор видео с таймлайном, кейфреймами, масками, AI-трекингом объектов и MCP-интеграцией." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo">
+        <span class="logo-icon">▶</span>
+        <span>AiClips</span>
+      </a>
+      <nav class="main-nav">
+        <a href="#features">Возможности</a>
+        <a href="#screenshots">Скриншоты</a>
+        <a href="#mcp">MCP</a>
+        <a href="#install">Установка</a>
+      </nav>
+      <a href="https://github.com/Rom4ik-12/AiClips" class="btn btn-secondary" target="_blank">GitHub</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-content">
+        <h1>Веб-редактор видео с <span class="accent">AI-трекингом</span></h1>
+        <p class="hero-subtitle">
+          Собирайте видео, текст и фигуры на таймлайне, анимируйте свойства через кейфреймы,
+          накладывайте маски и отслеживайте объекты прямо в браузере.
+        </p>
+        <div class="hero-actions">
+          <a href="https://github.com/Rom4ik-12/AiClips" class="btn btn-primary" target="_blank">Открыть на GitHub</a>
+          <a href="#screenshots" class="btn btn-ghost">Посмотреть скриншоты</a>
+        </div>
+        <div class="hero-badges">
+          <span class="badge">React 19</span>
+          <span class="badge">FastAPI</span>
+          <span class="badge">OpenCV</span>
+          <span class="badge">MCP</span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="screenshots/video-on-timeline.png" alt="Интерфейс AiClips" class="hero-screenshot" />
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Возможности</h2>
+      <p class="section-subtitle">Всё необходимое для быстрого монтажа и экспериментов с видео</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎬</div>
+          <h3>Многослойный таймлайн</h3>
+          <p>Добавляйте неограниченное количество дорожек и перетаскивайте клипы любого типа на любую дорожку.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📍</div>
+          <h3>Кейфреймы</h3>
+          <p>Анимируйте позицию, масштаб и прозрачность. Все ключи редактируются прямо на таймлайне.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎭</div>
+          <h3>Маски</h3>
+          <p>Используйте фигуры в качестве масок для видео: квадрат, круг, ромб, многоугольник.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3>AI-трекинг</h3>
+          <p>Кликните на объект в видео — AiClips автоматически построит траекторию движения.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎨</div>
+          <h3>Текст и фигуры</h3>
+          <p>Добавляйте текстовые надписи и геометрические фигуры с настройкой цвета и размера.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔌</div>
+          <h3>MCP-интеграция</h3>
+          <p>Подключите внешних AI-агентов: они смогут читать таймлайн, добавлять клипы и запускать рендер.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screenshots" class="screenshots">
+    <div class="container">
+      <h2 class="section-title">Скриншоты</h2>
+      <p class="section-subtitle">Посмотрите, как выглядит AiClips в работе</p>
+      <div class="screenshots-grid">
+        <div class="screenshot-item">
+          <div class="screenshot-image"><img src="screenshots/empty-state.png" alt="Пустый проект" /></div>
+          <span>Начало работы</span>
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-image"><img src="screenshots/video-imported.png" alt="Импорт видео" /></div>
+          <span>Импорт медиа</span>
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-image"><img src="screenshots/video-on-timeline.png" alt="Видео на таймлайне" /></div>
+          <span>Видео на таймлайне</span>
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-image"><img src="screenshots/video-properties.png" alt="Панель свойств" /></div>
+          <span>Панель свойств</span>
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-image"><img src="screenshots/text-element.png" alt="Текстовый элемент" /></div>
+          <span>Текст и фигуры</span>
+        </div>
+        <div class="screenshot-item">
+          <div class="screenshot-image"><img src="screenshots/tracking-active.png" alt="AI-трекинг" /></div>
+          <span>AI-трекинг объектов</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo" class="demo">
+    <div class="container">
+      <h2 class="section-title">Демо</h2>
+      <p class="section-subtitle">Пример результата AI-трекинга объекта в видео</p>
+      <div class="demo-video-wrapper">
+        <video src="output.mp4" controls poster="screenshots/tracking-active.png" class="demo-video"></video>
+      </div>
+    </div>
+  </section>
+
+  <section id="mcp" class="mcp">
+    <div class="container mcp-inner">
+      <div class="mcp-content">
+        <h2 class="section-title">MCP-интеграция</h2>
+        <p>
+          AiClips включает MCP-сервер, который позволяет AI-агентам управлять таймлайном.
+          Подключите Claude Desktop и управляйте проектом голосом или текстом.
+        </p>
+        <ul class="mcp-tools">
+          <li><code>get_timeline</code> — получить текущее состояние</li>
+          <li><code>add_clip</code> — добавить клип</li>
+          <li><code>update_clip</code> — изменить свойства</li>
+          <li><code>render_video</code> — запустить рендер</li>
+        </ul>
+        <a href="https://github.com/Rom4ik-12/AiClips#mcp-%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D1%8F" class="btn btn-primary" target="_blank">Инструкция по настройке</a>
+      </div>
+      <div class="mcp-visual">
+        <img src="screenshots/tracking-active.png" alt="MCP и трекинг" />
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="install">
+    <div class="container">
+      <h2 class="section-title">Быстрый старт</h2>
+      <div class="install-steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Клонируйте репозиторий</h3>
+          <pre><code>git clone https://github.com/Rom4ik-12/AiClips.git
+cd AiClips</code></pre>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Запустите бэкенд</h3>
+          <pre><code>cd backend
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python main.py</code></pre>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Запустите фронтенд</h3>
+          <pre><code>cd frontend
+npm install
+npm run dev</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>© 2026 AiClips. Открытый исходный код под лицензией MIT.</p>
+      <a href="https://github.com/Rom4ik-12/AiClips" target="_blank">GitHub</a>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

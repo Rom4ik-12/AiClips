@@ -1,6 +1,8 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import { getInterpolatedValue } from '../utils/animations';
-import TrackingOverlay from './TrackingOverlay';
+import TrackingCanvas from './TrackingCanvas';
+import TrackingPanel from './TrackingPanel';
+import { loadOpenCV, trackPoint, trackingDataToKeyframes } from '../utils/tracker';
 import './VideoPlayer.css';
 
 // ─── Разрешение трансформаций с учётом системы родителей ───────────────────
@@ -48,20 +50,85 @@ const VideoPlayer = ({
   const videoRefs = useRef({});
   const [playerSize, setPlayerSize] = useState({ width: 0, height: 0 });
   const [trackingVideoEl, setTrackingVideoEl] = useState(null);
+  const [trackingPhase, setTrackingPhase] = useState('pick');
+  const [trackingCvLoaded, setTrackingCvLoaded] = useState(false);
+  const [trackingCvError, setTrackingCvError] = useState(null);
+  const [trackingProgress, setTrackingProgress] = useState({ current: 0, total: 0 });
+  const [trackingPickedPoint, setTrackingPickedPoint] = useState(null);
+  const trackingAbortRef = useRef(false);
   const playerCanvasRef = useRef(null);
 
   // Клип для трекинга (нужен его <video> элемент)
   const trackingClip = trackingClipId ? allClips.find(c => c.id === trackingClipId) : null;
 
-  // Получаем DOM-элемент видео для трекинга после рендера (не во время рендера)
+  // Сбрасываем состояние трекинга при смене клипа и загружаем OpenCV
   useEffect(() => {
-    if (trackingClipId) {
-      const el = videoRefs.current[trackingClipId] || null;
-      setTrackingVideoEl(el);
-    } else {
+    if (!trackingClipId) {
       setTrackingVideoEl(null);
+      return;
     }
+    setTrackingPhase('pick');
+    setTrackingPickedPoint(null);
+    setTrackingProgress({ current: 0, total: 0 });
+    setTrackingCvError(null);
+    setTrackingCvLoaded(false);
+    trackingAbortRef.current = false;
+
+    let cancelled = false;
+    loadOpenCV()
+      .then(() => { if (!cancelled) setTrackingCvLoaded(true); })
+      .catch((e) => { if (!cancelled) setTrackingCvError(e.message); });
+
+    return () => { cancelled = true; };
+  }, [trackingClipId]);
+
+  // Обновляем ссылку на DOM-элемент видео для трекинга, когда он появляется в DOM
+  useEffect(() => {
+    if (!trackingClipId) return;
+    const el = videoRefs.current[trackingClipId] || null;
+    setTrackingVideoEl(prev => (prev === el ? prev : el));
   }, [trackingClipId, activeClips]);
+
+  const handleTrackingStart = useCallback(async () => {
+    if (!trackingPickedPoint || !trackingCvLoaded || !trackingVideoEl || !trackingClip) return;
+    trackingAbortRef.current = false;
+    setTrackingPhase('tracking');
+    setTrackingProgress({ current: 0, total: 0 });
+
+    try {
+      let progressFrame = 0;
+      const data = await trackPoint(
+        trackingVideoEl,
+        trackingPickedPoint,
+        1280,
+        720,
+        (current, total, screenPoint) => {
+          if (trackingAbortRef.current) return;
+          setTrackingProgress({ current, total });
+          // Обновляем положение прицела не каждый кадр, чтобы не перегружать рендер
+          if (screenPoint && ++progressFrame % 5 === 0) {
+            setTrackingPickedPoint(screenPoint);
+          }
+        }
+      );
+
+      if (!trackingAbortRef.current) {
+        const keyframes = trackingDataToKeyframes(data, 1280, 720);
+        setTrackingPhase('done');
+        onTrackingComplete(trackingClipId, keyframes);
+      }
+    } catch (err) {
+      setTrackingCvError(err.message);
+      setTrackingPhase('pick');
+    }
+  }, [trackingPickedPoint, trackingCvLoaded, trackingVideoEl, trackingClip, trackingClipId, onTrackingComplete]);
+
+  const handleTrackingCancel = useCallback(() => {
+    trackingAbortRef.current = true;
+    setTrackingPickedPoint(null);
+    setTrackingPhase('pick');
+    onTrackingCancel();
+  }, [onTrackingCancel]);
 
   // Измеряем реальный размер canvas сразу и следим за изменениями
   useEffect(() => {
@@ -151,6 +218,13 @@ const VideoPlayer = ({
         className="player-canvas glass-panel"
         style={{ position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
+        {activeClips.length === 0 && (
+          <div className="placeholder-text">
+            <span className="icon">🎬</span>
+            <p>Переместите ползунок на таймлайне для предпросмотра</p>
+          </div>
+        )}
+
         {playerSize.width > 0 && (
           <div style={{
             position: 'relative',
@@ -285,21 +359,15 @@ const VideoPlayer = ({
               </div>
             );
           })
-        ) : (
-          <div className="placeholder-text">
-            <span className="icon">🎬</span>
-            <p>Переместите ползунок на таймлайне для предпросмотра</p>
-          </div>
-        )}
+        ) : null}
 
-        {/* Оверлей трекинга теперь тоже живет внутри 1280x720, так что получает правильные размеры */}
+        {/* Оверлей трекинга — только canvas для клика/прицела */}
         {trackingClipId && trackingClip && trackingVideoEl && (
-          <TrackingOverlay
-            videoEl={trackingVideoEl}
-            clip={trackingClip}
+          <TrackingCanvas
             canvasSize={{ width: 1280, height: 720 }}
-            onComplete={(keyframes) => onTrackingComplete(trackingClipId, keyframes)}
-            onCancel={onTrackingCancel}
+            pickedPoint={trackingPickedPoint}
+            onPointSelect={setTrackingPickedPoint}
+            phase={trackingPhase}
           />
         )}
           </div>
@@ -307,10 +375,24 @@ const VideoPlayer = ({
       </div>
 
       <div className="playback-controls glass-panel">
-        <button className="play-btn" onClick={() => setIsPlaying(!isPlaying)}>
-          {isPlaying ? '⏸' : '▶'}
-        </button>
-        <div className="time-display">00:00:00 / 00:00:00</div>
+        {trackingClipId ? (
+          <TrackingPanel
+            phase={trackingPhase}
+            cvLoaded={trackingCvLoaded}
+            cvError={trackingCvError}
+            pickedPoint={trackingPickedPoint}
+            progress={trackingProgress}
+            onStart={handleTrackingStart}
+            onCancel={handleTrackingCancel}
+          />
+        ) : (
+          <>
+            <button className="play-btn" onClick={() => setIsPlaying(!isPlaying)}>
+              {isPlaying ? '⏸' : '▶'}
+            </button>
+            <div className="time-display">00:00:00</div>
+          </>
+        )}
       </div>
     </div>
   );

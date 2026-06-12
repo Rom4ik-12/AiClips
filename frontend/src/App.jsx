@@ -9,9 +9,9 @@ import './index.css';
 
 const initialClips = [];
 const initialTracks = [
-  { id: 'track-0', name: 'V1', type: 'video' },
-  { id: 'track-1', name: 'T1', type: 'text' },
-  { id: 'track-2', name: 'A1', type: 'audio' },
+  { id: 'track-0', name: 'Track 1' },
+  { id: 'track-1', name: 'Track 2' },
+  { id: 'track-2', name: 'Track 3' },
 ];
 
 function App() {
@@ -65,10 +65,9 @@ function App() {
   const [trackingClipId, setTrackingClipId] = useState(null);
   const [tracks, setTracks] = useState(initialTracks);
 
-  const addTrack = (type = 'video') => {
+  const addTrack = () => {
     const index = tracks.length;
-    const typePrefix = type === 'audio' ? 'A' : type === 'text' ? 'T' : 'V';
-    setTracks(prev => [...prev, { id: `track-${Date.now()}`, name: `${typePrefix}${index + 1}`, type }]);
+    setTracks(prev => [...prev, { id: `track-${Date.now()}`, name: `Track ${index + 1}` }]);
   };
 
   const updateTrack = (id, updates) => {
@@ -115,10 +114,14 @@ function App() {
         setClips(prev => prev.filter(c => c.id !== selectedItemId));
         setSelectedItemId(null);
       }
+
+      if (e.key === 'Escape' && trackingClipId) {
+        setTrackingClipId(null);
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedItemId, setClips]);
+  }, [selectedItemId, setClips, trackingClipId]);
 
   useEffect(() => {
     let interval;
@@ -299,11 +302,7 @@ function App() {
     }));
   };
 
-  const getDefaultTrack = (type) => {
-    const preferred = type === 'audio' ? 'audio' : type === 'text' || type === 'shape' || type === 'tracker' ? 'text' : 'video';
-    const index = tracks.findIndex(t => t.type === preferred);
-    return index >= 0 ? index : 0;
-  };
+  const getDefaultTrack = () => 0;
 
   const handleAddClip = (file) => {
     const newClip = {
@@ -311,7 +310,7 @@ function App() {
       type: 'video',
       name: `uploads/${file.name}`,
       x: 0,
-      track: getDefaultTrack('video'),
+      track: getDefaultTrack(),
       width: 200,
       keyframes: []
     };
@@ -329,7 +328,7 @@ function App() {
       type: 'tracker',
       name: `Трекер`,
       x: sourceClip.x,
-      track: getDefaultTrack('tracker'),
+      track: getDefaultTrack(),
       width: sourceClip.width,
       keyframes,
       canvasX: 0,
@@ -350,7 +349,6 @@ function App() {
               ● MCP: {wsStatus}
               <McpHelp />
             </span>
-            <button className="export-btn" onClick={handleRender}>Экспорт</button>
             <div className="settings-badge">1080p</div>
           </div>
           <VideoPlayer 
@@ -358,7 +356,6 @@ function App() {
             setIsPlaying={setIsPlaying} 
             onRender={handleRender} 
             isRendering={isRendering}
-            outputVideoUrl={outputVideoUrl} 
             clips={clips}
             playheadPos={playheadPos}
             trackingClipId={trackingClipId}
@@ -373,7 +370,11 @@ function App() {
             onUpdate={updateClip} 
             playheadPos={playheadPos}
             onToggleKeyframe={handleToggleKeyframe}
-            onStartTracking={(clipId) => setTrackingClipId(clipId)}
+            onStartTracking={(clipId) => {
+              const clip = clips.find(c => c.id === clipId);
+              if (clip) setPlayheadPos(clip.x);
+              setTrackingClipId(clipId);
+            }}
           />
         </div>
       </div>
