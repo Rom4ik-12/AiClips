@@ -1,0 +1,116 @@
+.mcp-help-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.mcp-help-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
+}
+
+.mcp-help-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.mcp-help-modal {
+  background: #1a1b23;
+  border: 1px solid #333;
+  border-radius: 12px;
+  width: 640px;
+  max-width: 90vw;
+  max-height: 85vh;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+}
+
+.mcp-help-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #333;
+}
+
+.mcp-help-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.mcp-help-close {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.mcp-help-close:hover {
+  color: var(--text-primary);
+}
+
+.mcp-help-content {
+  padding: 20px;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.mcp-help-content h4 {
+  color: var(--text-primary);
+  font-size: 13px;
+  margin: 18px 0 8px;
+}
+
+.mcp-help-content p {
+  margin: 8px 0;
+}
+
+.mcp-help-content pre {
+  background: #0f1115;
+  border: 1px solid #2a2d36;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin: 10px 0;
+}
+
+.mcp-help-content code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 12px;
+  color: #a5b4fc;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.mcp-help-note {
+  color: #9ca3af;
+  font-size: 12px;
+  margin-top: 12px;
+}

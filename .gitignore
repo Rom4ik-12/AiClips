@@ -1,0 +1,19 @@
+# Backend
+backend/venv/
+backend/__pycache__/
+backend/**/*.pyc
+backend/.env
+backend/uploads/
+backend/static/output.mp4
+backend/output.mp4
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+*.log
